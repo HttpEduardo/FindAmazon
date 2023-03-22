@@ -6,73 +6,64 @@ This tool simply listens to various certificate transparency logs (via certstrea
 
 ![Demo](https://i.imgur.com/ZFkIYhD.jpg)
 
-**Be responsible**. I mainly created this tool to highlight the risks associated with public S3 buckets and to put a different spin on the usual dictionary based attacks. Some quick tips if you use S3 buckets:
+Seja responsável. Eu criei esta ferramenta principalmente para destacar os riscos associados aos Buckets públicos do S3 e para dar um toque diferente aos ataques baseados em dicionário habituais. Algumas dicas rápidas se você usar Buckets S3:
 
-1) Randomise your bucket names! There is no need to use `company-backup.s3.amazonaws.com`.
-2) Set appropriate permissions and audit regularly. If possible create two buckets - one for your public assets and another for private data.
-3) Be mindful about **your data**. What are suppliers, contractors and third parties doing with it? Where and how is it stored? These basic questions should be addressed in every info sec policy.
-4) Try [Amazon Macie](https://aws.amazon.com/macie/) - it can automatically classify and secure sensitive data.
+Randomize os nomes dos seus Buckets! Não há necessidade de usar empresa-backup.s3.amazonaws.com.
+Defina permissões apropriadas e faça auditorias regularmente. Se possível, crie dois Buckets - um para seus ativos públicos e outro para dados privados.
+Esteja atento aos seus dados. O que os fornecedores, empreiteiros e terceiros estão fazendo com eles? Onde e como eles estão armazenados? Essas questões básicas devem ser abordadas em cada política de segurança da informação.
+Experimente o Amazon Macie - ele pode classificar e proteger automaticamente dados confidenciais.
+Agradeço ao meu bom amigo David (@riskobscurity) pela ideia.
 
-Thanks to my good friend David (@riskobscurity) for the idea.
+Instalação
+Python 3.4+ e pip3 são necessários. Então, simplesmente:
 
-## Installation
+git clone https://github.com/HttpEduardo/FindAmazon.git
+(opcional) Crie um ambiente virtual com pip3 install virtualenv && virtualenv .virtualenv && source .virtualenv/bin/activate
+pip3 install -r requirements.txt
 
-Python 3.4+ and pip3 are required. Then just:
+## Uso
 
-1. `git clone https://github.com/eth0izzle/bucket-stream.git`
-2. *(optional)* Create a virtualenv with `pip3 install virtualenv && virtualenv .virtualenv && source .virtualenv/bin/activate`
-2. `pip3 install -r requirements.txt`
-3. `python3 bucket-stream.py`
+Simplesmente execute `python3 bucket-stream.py`.
 
-## Usage
+Se você fornecer acesso à AWS e chaves secretas em `config.yaml`, o Bucket Stream tentará acessar os buckets autenticados e identificar o proprietário dos buckets. **Usuários não autenticados têm taxa severamente limitada.**
 
-Simply run `python3 bucket-stream.py`.
+    uso: python bucket-stream.py
 
-If you provide AWS access and secret keys in `config.yaml` Bucket Stream will attempt to access authenticated buckets and identity the buckets owner. **Unauthenticated users are severely rate limited.**
+    Encontre baldes interessantes do Amazon S3 observando os logs de transparência do certificado.
 
-    usage: python bucket-stream.py
-
-    Find interesting Amazon S3 Buckets by watching certificate transparency logs.
-
-    optional arguments:
-      -h, --help            Show this help message and exit
-      --only-interesting    Only log 'interesting' buckets whose contents match
-                            anything within keywords.txt (default: False)
-      --skip-lets-encrypt   Skip certs (and thus listed domains) issued by Let's
-                            Encrypt CA (default: False)
-      -t , --threads        Number of threads to spawn. More threads = more power.
-                            Limited to 5 threads if unauthenticated.
-                            (default: 20)
+    argumentos opcionais:
+      -h, --help Mostra esta mensagem de ajuda e sai
+      --only-interesting Registra apenas buckets 'interessantes' cujos conteúdos correspondem
+                            qualquer coisa dentro de keywords.txt (padrão: False)
+      --skip-lets-encrypt Skip certs (e, portanto, domínios listados) emitidos por Let's
+                            Criptografar CA (padrão: Falso)
+      -t , --threads Número de encadeamentos a serem gerados. Mais fios = mais poder.
+                            Limitado a 5 threads se não autenticado.
+                            (padrão: 20)
       --ignore-rate-limiting
-                            If you ignore rate limits not all buckets will be
-                            checked (default: False)
-      -l, --log             Log found buckets to a file buckets.log (default:
-                            False)
-      -s, --source          Data source to check for bucket permutations. Uses
-                            certificate transparency logs if not specified.
-                            (default: None)
-      -p, --permutations    Path of file containing a list of permutations to try
-                            (see permutations/ dir). (default: permutations\default.txt)
+                            Se você ignorar os limites de taxa, nem todos os baldes serão
+                            verificado (padrão: Falso)
+      -l, --log Registra os buckets encontrados em um arquivo buckets.log (padrão:
+                            Falso)
+      -s, --source Fonte de dados para verificar as permutações de bucket. Usos
+                            logs de transparência de certificado se não for especificado.
+                            (padrão: Nenhum)
+      -p, --permutations Caminho do arquivo contendo uma lista de permutações para tentar
+                            (veja permutações/dir). (padrão: permutações\padrão.txt)
 
 ## F.A.Qs
 
-- **Nothing appears to be happening**
+- **Nada parece estar acontecendo**
 
-   Patience! Sometimes certificate transparency logs can be quiet for a few minutes. Ideally provide AWS secrets in `config.yaml` as this greatly speeds up the checking rate.
+   Paciência! Às vezes, os logs de transparência de certificado podem ficar silenciosos por alguns minutos. O ideal é fornecer os segredos da AWS em `config.yaml`, pois isso acelera muito a taxa de verificação.
 
-- **I found something highly confidential**
+- **Encontrei algo altamente confidencial**
 
-   **Report it** - please! You can usually figure out the owner from the bucket name or by doing some quick reconnaissance. Failing that contact Amazon's support teams.
+   **Denunciem** - por favor! Geralmente, você pode descobrir o proprietário pelo nome do balde ou fazendo um reconhecimento rápido. Caso contrário, entre em contato com as equipes de suporte da Amazon.
 
-## Contributing
 
-1. Fork it, baby!
-2. Create your feature branch: `git checkout -b my-new-feature`
-3. Commit your changes: `git commit -am 'Add some feature'`
-4. Push to the branch: `git push origin my-new-feature`
-5. Submit a pull request.
+## Licença
 
-## License
-
-MIT. See LICENSE
+MIT. Ver LICENÇA
 # FindAmazon
+
