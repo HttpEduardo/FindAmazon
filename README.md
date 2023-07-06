@@ -61,9 +61,3 @@ Se você fornecer acesso à AWS e chaves secretas em `config.yaml`, o Bucket Str
 
    **Denunciem** - por favor! Geralmente, você pode descobrir o proprietário pelo nome do balde ou fazendo um reconhecimento rápido. Caso contrário, entre em contato com as equipes de suporte da Amazon.
 
-
-## Licença
-
-MIT. Ver LICENÇA
-# FindAmazon
-
